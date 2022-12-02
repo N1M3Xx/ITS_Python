@@ -4,6 +4,8 @@ while err==1:
     n=input("\nInserire un numero: ")
     if(n.isnumeric()==True):
         err=0
+    else:
+        print("\nErrore di inserimento")
         
 n1=""
 c=0
