@@ -8,7 +8,7 @@ def rendi_palindromo(a):
                     a[x]=a[len(a)-1-x]
                 else:
                     n=a[len(a)-1-x]-a[x]
-                    a.insert(x+1, n)
+                    a.insert(len(a)-1-x, n)
                     a[len(a)-1-x]=a[x]
     return a
 
