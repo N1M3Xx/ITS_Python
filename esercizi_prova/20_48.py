@@ -49,9 +49,6 @@ def gameLoop():
     snake_List = []
     Length_of_snake = 1
  
-    foodx = round(random.randrange(0, dis_width - block) / 10.0) * 10.0
-    foody = round(random.randrange(0, dis_height - block) / 10.0) * 10.0
- 
     while not game_over:
  
         while game_close == True:
@@ -90,6 +87,15 @@ def gameLoop():
 
         x1+=x1_change
         y1+=y1_change
+        
+        if x1>=dis_width-block:
+            x1=dis_width-block
+        if x1<=0:
+            x1=0
+        if y1>=dis_height-block:
+            y1=dis_height-block
+        if y1<0:
+            y1=0
 
         dis.fill(black)
         pygame.draw.rect(dis, green, [x1, y1, block, block])
