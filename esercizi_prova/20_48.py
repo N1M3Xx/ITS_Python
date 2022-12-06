@@ -20,7 +20,7 @@ pygame.display.set_caption('2048')
 clock = pygame.time.Clock()
  
 block = 200
-transition_speed = 5
+transition_speed = 2
  
 font_style = pygame.font.SysFont("bahnschrift", 25)
 score_font = pygame.font.SysFont("comicsansms", 35)
@@ -34,23 +34,40 @@ def Your_score(score):
 def message(msg, color):
     mesg = font_style.render(msg, True, color)
     dis.blit(mesg, [dis_width / 6, dis_height / 3])
- 
+    
+def change_color(c):
+    if c==(0, 255, 0):
+        return (50, 0, 213)
+    elif c==(50, 0, 213):
+        return (255, 255, 100)
+    elif c==(255, 255, 100):
+        return (255, 0, 0)
+    else:
+        return (0, 255, 0)
  
 def gameLoop():
     game_over = False
     game_close = False
  
-    x1 = 0
-    y1 = 0
+    x = []
+    y = []
+    c = []
+    
+    x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
+    y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
+    c.append(green)
  
     x1_change = 0
     y1_change = 0
+    
+    input=False
  
     snake_List = []
     Length_of_snake = 1
  
     while not game_over:
- 
+        
+        input=False
         while game_close == True:
             dis.fill(black)
             message("Hai Perso! Premi ESC per uscire o C per continuare", red)
@@ -66,6 +83,7 @@ def gameLoop():
                         gameLoop()
  
         for event in pygame.event.get():
+            input=-True
             if event.type == pygame.QUIT:
                 game_over = True
             if event.type == pygame.KEYDOWN:
@@ -84,22 +102,45 @@ def gameLoop():
                 elif event.key == pygame.K_DOWN:
                     y1_change = block
                     x1_change = 0
+                x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
+                y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
+                c.append(green)
 
-        x1+=x1_change
-        y1+=y1_change
+        if input==True:
+            print("kek")
+            dis.fill(black)
+            for ct in range(len(x)):
+                if(len(x)>0):
+                    x[ct]+=x1_change
+                    y[ct]+=y1_change
+                    
+                    if x[ct]>=dis_width-block:
+                        x[ct]=dis_width-block
+                    if x[ct]<=0:
+                        x[ct]=0
+                    if y[ct]>=dis_height-block:
+                        y[ct]=dis_height-block
+                    if y[ct]<0:
+                        y[ct]=0
+                
+                pygame.draw.rect(dis, c[ct], [x[ct], y[ct], block, block])
+                pygame.display.update()
+                    
+            print(len(x))
+            for ct1 in range(len(x)-1):
+                for ct2 in range(ct1+1, len(x)-1):
+                    if(x[ct1]==x[ct2]) and (y[ct1]==y[ct2]) and (c[ct1]==c[ct2]):
+                        c[ct2]=change_color(c[ct2])
+                        del x[ct1]
+                        del y[ct1]
+                        del c[ct1]
+                    elif(x[ct1]==x[ct2]) and (y[ct1]==y[ct2]) and (c[ct1]!=c[ct2]):
+                        x[ct2]+=x1_change
+                        y[ct2]+=y1_change
+            
+
         
-        if x1>=dis_width-block:
-            x1=dis_width-block
-        if x1<=0:
-            x1=0
-        if y1>=dis_height-block:
-            y1=dis_height-block
-        if y1<0:
-            y1=0
-
-        dis.fill(black)
-        pygame.draw.rect(dis, green, [x1, y1, block, block])
-        pygame.display.update()
+        
         clock.tick(transition_speed)
  
     pygame.quit()
