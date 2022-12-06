@@ -8,12 +8,10 @@ while err==1:
         print("\nErrore di inserimento")
         
 n1=""
-c=0
 
-for x in range(len(n), 0, -1):
-    if((c%3==0) and (c!=0)):
+for x in range(0, len(n)):
+    if((x%3==0) and (x!=0)):
         n1=","+n1
-    n1=n[x-1]+n1
-    c+=1
+    n1=n[len(n)-x-1]+n1
             
 print(n1)
