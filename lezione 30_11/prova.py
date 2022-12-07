@@ -53,24 +53,24 @@ def gameLoop():
     y = []
     c = []
     
-    x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
-    y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
-    c.append(green)
-    pygame.draw.rect(dis, c[0], [x[0], y[0], block, block])
-    pygame.display.update()
+    for ct in range(2):
+        x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
+        y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
+        c.append(green)
+        pygame.draw.rect(dis, c[ct], [x[ct], y[ct], block, block])
+        pygame.display.update()
  
     x1_change = 0
     y1_change = 0
- 
-    snake_List = []
-    Length_of_snake = 1
+    
+    points=0
  
     while not game_over:
  
         while game_close == True:
             dis.fill(black)
             message("Hai Perso! Premi ESC per uscire o C per continuare", red)
-            Your_score(Length_of_snake - 1)
+            Your_score(points - 1)
             pygame.display.update()
  
             for event in pygame.event.get():
@@ -100,41 +100,18 @@ def gameLoop():
                 elif event.key == pygame.K_DOWN:
                     y1_change = block
                     x1_change = 0
+                dis.fill(black)
+                for ct in range(len(x)-1):
+                    x[ct]+=x1_change
+                    y[ct]+=y1_change
+                    
+                        
+        
                 x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
                 y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
                 c.append(green)
-
-        dis.fill(black)
-        for ct in range(len(x)-1):
-            r=0
-            x[ct]+=x1_change
-            y[ct]+=y1_change
-            
-            if x[ct]>=dis_width-block:
-                x[ct]=dis_width-block
-            if x[ct]<0:
-                x[ct]=0
-            if y[ct]>=dis_height-block:
-                y[ct]=dis_height-block
-            if y[ct]<0:
-                y[ct]=0
-            for ct1 in range(ct+1, len(x)-1):
-                m=ct1+r
-                if(x[ct]==x[m]) and (y[ct]==y[m]) and (c[ct]==c[m]):
-                    c[ct]=change_color(c[ct])
-                    del x[m]
-                    del y[m]
-                    del c[m]
-                    r-=1
-                elif(x[ct]==x[m]) and (y[ct]==y[m]) and (c[ct]!=c[m]):
-                    x[m]-=x1_change
-                    y[m]-=y1_change
-            
-        for ct in range(len(x)):
-            pygame.draw.rect(dis, c[ct], [x[ct], y[ct], block, block])
-            pygame.display.update()
-        
-        clock.tick(transition_speed)
+                
+    clock.tick(transition_speed)    
  
     pygame.quit()
     quit()

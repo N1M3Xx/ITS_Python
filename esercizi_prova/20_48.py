@@ -105,7 +105,8 @@ def gameLoop():
                 c.append(green)
 
         dis.fill(black)
-        for ct in range(len(x)):
+        for ct in range(len(x)-1):
+            r=0
             x[ct]+=x1_change
             y[ct]+=y1_change
             
@@ -117,23 +118,21 @@ def gameLoop():
                 y[ct]=dis_height-block
             if y[ct]<0:
                 y[ct]=0
-        
-        pygame.draw.rect(dis, c[ct], [x[ct], y[ct], block, block])
-        pygame.display.update()
-                
-        for ct1 in range(len(x)-1):
-            for ct2 in range(ct1+1, len(x)-1):
-                if(x[ct1]==x[ct2]) and (y[ct1]==y[ct2]) and (c[ct1]==c[ct2]):
-                    c[ct2]=change_color(c[ct2])
-                    del x[ct1]
-                    del y[ct1]
-                    del c[ct1]
-                elif(x[ct1]==x[ct2]) and (y[ct1]==y[ct2]) and (c[ct1]!=c[ct2]):
-                    x[ct2]+=x1_change
-                    y[ct2]+=y1_change
+            for ct1 in range(ct+1, len(x)-1):
+                m=ct1+r
+                if(x[ct]==x[m]) and (y[ct]==y[m]) and (c[ct]==c[m]):
+                    c[ct]=change_color(c[ct])
+                    del x[m]
+                    del y[m]
+                    del c[m]
+                    r-=1
+                elif(x[ct]==x[m]) and (y[ct]==y[m]) and (c[ct]!=c[m]):
+                    x[m]-=x1_change
+                    y[m]-=y1_change
             
-
-        
+        for ct in range(len(x)):
+            pygame.draw.rect(dis, c[ct], [x[ct], y[ct], block, block])
+            pygame.display.update()
         
         clock.tick(transition_speed)
  
