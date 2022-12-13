@@ -20,7 +20,7 @@ pygame.display.set_caption('2048')
 clock = pygame.time.Clock()
  
 block = 200
-transition_speed = 2
+transition_speed = 10
  
 font_style = pygame.font.SysFont("bahnschrift", 25)
 score_font = pygame.font.SysFont("comicsansms", 35)
