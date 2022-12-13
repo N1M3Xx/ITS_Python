@@ -77,8 +77,9 @@ def Shihft(x, y, c, change):
                 del c[ct2-1]
                 c[ct2]=change_color
                 r-=1
-        pygame.draw.rect(dis, c[ct2], [x[ct2], y[ct2], block, block])
-        pygame.display.update()
+            pygame.draw.rect(dis, green, [x[ct2], y[ct2], block, block])
+            pygame.display.update()
+            clock.tick(transition_speed) 
         
 def change_color(c):
     if c==(0, 255, 0):
@@ -129,9 +130,6 @@ def gameLoop():
             if event.type == pygame.QUIT:
                 game_over = True
             if event.type == pygame.KEYDOWN:
-                x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
-                y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
-                c.append(green)
                 if event.key == pygame.K_ESCAPE:
                         game_over = True
                         game_close = True
@@ -147,7 +145,6 @@ def gameLoop():
                 elif event.key == pygame.K_DOWN:
                     y1_change = block
                     x1_change = 0
-                dis.fill(black)
                 if(x1_change<0):
                     x, y, c=BubbleSort(x, y, c, "<")
                     Shihft(x, y, c, x1_change)
@@ -160,6 +157,10 @@ def gameLoop():
                 if(y1_change>0):
                     x, y, c=BubbleSort(y, x, c, ">")
                     Shihft(y, y, c, y1_change)
+                x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
+                y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
+                c.append(green)
+                pygame.display.update()
               
     clock.tick(transition_speed)    
  
