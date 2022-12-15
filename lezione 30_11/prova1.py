@@ -62,24 +62,28 @@ def Shihft(x, y, c, change):
         for ct2 in range(len(x)-1):
             x[ct2]+=change
             m=ct2+r
-            if x[ct2]>=max:
-                x[ct2]=max
-                if(c[ct2]!=c[ct2+1]):
-                    max=x[ct2]-block
-            if x[ct2]<min:
-                x[ct2]=min
-                if(c[ct2]!=c[ct2+1]):
-                    min=x[ct2]+block
+            if x[m]>=max:
+                x[m]=max
+                if(len(x)>1):
+                    if(c[m]!=c[cmt2+1]):
+                        max=x[m]-block
+            if x[m]<min:
+                x[m]=min
+                if(len(x)>1):
+                    if(c[m]!=c[m+1]):
+                        min=x[m]+block
             
-            if(c[ct2]==c[ct2-1] and x[ct2]==x[ct2-1] and y[ct2]==y[ct2-1]):
-                del x[ct2-1]
-                del y[ct2-1]
-                del c[ct2-1]
-                c[ct2]=change_color
+            if(c[m]==c[m+1] and x[m]==x[m+1] and y[m]==y[m+1]):
+                del x[m]
+                del y[m]
+                del c[m]
+                c[m+1]=change_color
                 r-=1
-            pygame.draw.rect(dis, green, [x[ct2], y[ct2], block, block])
-            pygame.display.update()
-            clock.tick(transition_speed) 
+            else:
+                pygame.draw.rect(dis, green, [x[m], y[m], block, block])
+                pygame.display.update()
+                clock.tick(transition_speed)
+        return x, y, c
         
 def change_color(c):
     if c==(0, 255, 0):
@@ -147,16 +151,16 @@ def gameLoop():
                     x1_change = 0
                 if(x1_change<0):
                     x, y, c=BubbleSort(x, y, c, "<")
-                    Shihft(x, y, c, x1_change)
+                    x, y, c=Shihft(x, y, c, x1_change)
                 if(x1_change>0):
                     x, y, c=BubbleSort(x, y, c, ">")
-                    Shihft(x, y, c, x1_change)
+                    x, y, c=Shihft(x, y, c, x1_change)
                 if(y1_change<0):
                     x, y, c=BubbleSort(y, x, c, "<")
-                    Shihft(y, y, c, y1_change)
+                    x, y, c=Shihft(y, y, c, y1_change)
                 if(y1_change>0):
                     x, y, c=BubbleSort(y, x, c, ">")
-                    Shihft(y, y, c, y1_change)
+                    x, y, c=Shihft(y, y, c, y1_change)
                 x.append(round(random.randrange(0, dis_width - block) / 200.0) * 200.0)
                 y.append(round(random.randrange(0, dis_height - block) / 200.0) * 200.0)
                 c.append(green)
